@@ -61,6 +61,11 @@
             }
         }
 
+        internal Task GetList<T>()
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<TokenResponse> GetToken(
             string urlBase,
             string username,
