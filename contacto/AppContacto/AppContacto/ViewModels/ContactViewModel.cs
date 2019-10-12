@@ -5,6 +5,7 @@
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
+    using System.Linq;
     using Xamarin.Forms;
 
     public class ContactViewModel:BaseViewModel
@@ -21,6 +22,8 @@
             get { return this.contacts; }
             set { SetValue(ref this.contacts, value); }
         }
+
+
         #endregion
 
         #region Constructor
@@ -65,10 +68,30 @@
             MainViewModel mainViewModel = MainViewModel.GetInstance();
             mainViewModel.ContactList = (List<Contact>)response.Result;
 
-            //this.Contacts = new ObservableCollection<Contact>(this);//
+            this.Contacts = new ObservableCollection<Contact>(this.ToContactView());
+
         }
+
+        private IEnumerable<Contact> ToContactView()
+          
+        {
+            ObservableCollection<Contact> collection = new ObservableCollection<Contact>();
+            MainViewModel main = MainViewModel.GetInstance();
+            foreach (var lista in main.ContactList)
+            {
+                Contact contacto = new Contact();
+                contacto.ContactID = lista.ContactID;
+                contacto.Name = lista.Name;
+                contacto.Type = lista.Type;
+                contacto.ContactValue = lista.ContactValue;
+                collection.Add(contacto);
+
+
+            }return collection;
+        }
+        
         #endregion
 
-    }
+    }  
 
 }
